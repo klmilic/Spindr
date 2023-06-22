@@ -35,7 +35,7 @@ export default function MainPage(props) {
     // console.log('redirect url: ', redirectUrl);
     let url;
     if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
-    else url = host + '/playlist';
+    else url = 'https://spindr.onrender.com/playlist';
 
     axios.get(url).then((response) => {
       console.log("playlist from server", response.data[0].favList);
