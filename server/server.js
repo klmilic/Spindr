@@ -93,7 +93,7 @@ app.get('/login', (req, res) => {
   //     state: state,
   //   });
 
-  const authorizationUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scopes.join(' ')}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
+  const authorizationUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scopes.join(' ')}&redirect_uri=${redirectUri}&state=${state}`;
 
   res.cookie(stateKey, state);
   res.redirect(authorizationUrl);
