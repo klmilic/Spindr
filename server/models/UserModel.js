@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const MONGO_URI = `mongodb+srv://Domc13:${process.env.MONGO_PASS}@cluster1.ujlsw0g.mongodb.net/?retryWrites=true&w=majority`;
+const MONGO_URI = `mongodb+srv://kmilic:${process.env.MONGO_PASS}@spindr.fswswiv.mongodb.net/?retryWrites=true&w=majority`;
 mongoose
   .connect(MONGO_URI, {
     // options for the connect method to parse the URI

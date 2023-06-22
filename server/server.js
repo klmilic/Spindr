@@ -43,16 +43,25 @@ const scopes = [
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PUT, PATCH, DELETE'
-  );
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
+app.use(express.static(path.join(__dirname, '../dist')));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
+
+app.get('/home', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+});
+
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.setHeader(
+//     'Access-Control-Allow-Methods',
+//     'GET, POST, PUT, PATCH, DELETE'
+//   );
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
 
 //generate random string to use in state property as recommended by Spotify authorization guidelines
 const generateRandomString = (length) => {
@@ -102,11 +111,7 @@ app.get('/callback', (req, res) => {
   axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
-    data: querystring.stringify({
-      grant_type: 'authorization_code',
-      code: code,
-      redirect_uri: redirectUri,
-    }),
+    data: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`,
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       //a buffer is a temporary storage area in memory that is used to hold data while it is being transferred from one place to another.
@@ -155,7 +160,9 @@ app.get('/callback', (req, res) => {
           maxAge: 3600000, //cookie will expire in an hour
         });
 
-        res.redirect('http://localhost:8080/home');
+        const currentDomain = req.protocol + '://' + req.get('host');
+        const redirectUrl = currentDomain + '/home';
+        res.redirect(redirectUrl);
 
         // axios
         //   .get('https://api.spotify.com/v1/me', {
