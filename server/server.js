@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 // const mongoose = require('mongoose');
-const querystring = require('node:querystring');
+// const querystring = require('node:querystring');
 const crypto = require('crypto');
 const axios = require('axios'); //easier library for fetching
 //this allows you to access .env files to read data
@@ -71,18 +71,21 @@ app.get('/login', (req, res) => {
   // const codeChallenge = base64UrlEncode(crypto.createHash('sha256').update(codeVerifier).digest());
   const state = generateRandomString(16); //need to generate random state string for security
   
-  const authorizationUrl =
-    'https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code', //required
-      client_id: clientId, //required
-      scope: scopes.join(' '), //optional scopes
-      redirect_uri: redirectUri, //uri that we set when we requested client id on spotify's create app
-      //also for PKCE:
-      // code_challenge: codeChallenge,
-      // code_challenge_method: 'S256',
-      state: state,
-    });
+  // const authorizationUrl =
+  //   'https://accounts.spotify.com/authorize?' +
+  //   querystring.stringify({
+  //     response_type: 'code', //required
+  //     client_id: clientId, //required
+  //     scope: scopes.join(' '), //optional scopes
+  //     redirect_uri: redirectUri, //uri that we set when we requested client id on spotify's create app
+  //     //also for PKCE:
+  //     // code_challenge: codeChallenge,
+  //     // code_challenge_method: 'S256',
+  //     state: state,
+  //   });
+
+  const authorizationUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scopes.join(' ')}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
+
   res.cookie(stateKey, state);
   res.redirect(authorizationUrl);
 });
