@@ -28,18 +28,18 @@ export default function MainPage(props) {
       }
     );
 
-    // const host = window.location.host;
-    // // const redirectUrl = currentHost + '/login';
-    // // console.log('currenthost: ', currentHost);
-    // // console.log('redirect url: ', redirectUrl);
-    // let url;
-    // if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
-    // else url = host + '/playlist';
+    const host = window.location.host;
+    // const redirectUrl = currentHost + '/login';
+    // console.log('currenthost: ', currentHost);
+    // console.log('redirect url: ', redirectUrl);
+    let url;
+    if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
+    else url = host + '/playlist';
 
-    // axios.get(url).then((response) => {
-    //   console.log("playlist from server", response.data[0].favList);
-    //   setPlaylist(response.data[0].favList);
-    // });
+    axios.get(url).then((response) => {
+      console.log("playlist from server", response.data[0].favList);
+      setPlaylist(response.data[0].favList);
+    });
   }, []);
 
   useEffect(() => {
