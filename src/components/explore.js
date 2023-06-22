@@ -3,22 +3,22 @@ import { useNavigate, useHistory } from "react-router-dom";
 import Navbar from './navbar';
 
 /* IMPORTING IMAGES */
-import bgImg from '../../assets:images/explorebg.jpg'
-import pop1 from '../../assets:images/p1.jpg';
-import pop2 from '../../assets:images/p2.jpg';
-import pop3 from '../../assets:images/p3.jpg';
-import pop4 from '../../assets:images/p4.jpg';
-import pop5 from '../../assets:images/p5.jpg';
-import pop6 from '../../assets:images/p6.jpg';
-import pop7 from '../../assets:images/p7.jpg';
-import pop8 from '../../assets:images/p8.jpg';
-import pop9 from '../../assets:images/p9.jpg';
-import pop10 from '../../assets:images/p10.jpg';
+import bgImg from '../../assets:images/explorebg2.jpg'
+import pop0 from '../../assets:images/lover1.jpeg';
+import pop from '../../assets:images/lover1.jpeg';
+import rock from '../../assets:images/rock.png';
+import country from '../../assets:images/country.jpeg';
+import ambient from '../../assets:images/ambient.jpeg';
+import jazz from '../../assets:images/jazz.jpeg';
+import classical from '../../assets:images/classical.jpeg';
+import latin from '../../assets:images/latin.jpeg';
+import techno from '../../assets:images/techno.jpeg';
+import hiphop from '../../assets:images/hiphop.jpeg';
+import blues from '../../assets:images/blues.jpg';
+import chill from '../../assets:images/chill.jpeg';
 
-const genreList = ['Pop','Rock','Country','Ambient','Jazz','Classical','Latin','Techno','Hip-Hop', 'Blues'];
-const popList =[pop1,pop2,pop3,pop4,pop5,pop6,pop7,pop8,pop9,pop10 ];
-
-
+const genreList = ['Random','Pop','Rock','Country','Ambient','Jazz','Classical','Latin','Techno','Hip-Hop', 'Blues', 'Chill'];
+const popList =[pop0,pop,rock,country,ambient,jazz,classical,latin,techno,hiphop,blues,chill ];
 
 export default function ExplorePage() {
 const [genre, setGenre] = useState("");
@@ -46,15 +46,17 @@ const handleChange = async(value) => {
                 <input id = "inputField" placeholder="Enter Genre here" ></input>
                 <button className='searchBtn' onClick={(e) => handleChange(document.getElementById('inputField').value)}>Search</button>
             </div>
-            <div className= "genreContainer">  {/* generates genre containers based on the genreList array */}
-               {( 
-                    genreList.map((el, i) => {
-                       return  <div key={i} className="genreWrapper">
-                            <div className="card" style={{marginTop: 35, backgroundImage: `url(${popList[i]})`}}></div>
-                            <button className="btn" id='btn' onClick={handleClick} name={el}>{el}</button>
-                        </div> 
-                    })
-                )}                
+            <div className="genres">
+                <div className= "genreContainer">  {/* generates genre containers based on the genreList array */}
+                {( 
+                        genreList.map((el, i) => {
+                        return  <div key={i} className="genreWrapper">
+                                <div className="card" style={{marginTop: 35, backgroundImage: `url(${popList[i]})`}}></div>
+                                <button className="btn" id='btn' onClick={handleClick} name={el}>{el}</button>
+                            </div> 
+                        })
+                    )}                
+                </div>
             </div>
         </div>
         

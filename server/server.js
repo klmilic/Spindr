@@ -52,6 +52,10 @@ app.get('/home', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
+app.get('/songs', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+});
+
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
 //   res.header('Access-Control-Allow-Credentials', true);

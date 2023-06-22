@@ -15,6 +15,8 @@ export default function MainPage(props) {
   const location = useLocation();
 
   console.log(location.state, "genre inside Main page from explore");
+  const hostTest = window.location.host;
+  console.log('host: ', hostTest);
 
   useEffect(() => {
     setCurrentCard(recommendedTracks[0]);
@@ -28,7 +30,13 @@ export default function MainPage(props) {
       }
     );
 
-    axios.get("http://localhost:3000/playlist").then((response) => {
+    const host = window.location.host;
+    // const redirectUrl = currentHost + '/login';
+    // console.log('currenthost: ', currentHost);
+    // console.log('redirect url: ', redirectUrl);
+    const url = host + '/playlist';
+
+    axios.get(url).then((response) => {
       console.log("playlist from server", response.data[0].favList);
       setPlaylist(response.data[0].favList);
     });

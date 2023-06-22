@@ -17,10 +17,10 @@ module.exports = {
     // port: 8080,
     // hot: true,
     allowedHosts: 'all',
-    static: {
-      directory: path.resolve(__dirname, 'dist'),
-      publicPath: '/dist',
-    },
+    // static: {
+    //   directory: path.resolve(__dirname, 'dist'),
+    //   publicPath: '/dist',
+    // },
     proxy: {
       '/api': {
         target: 'http://localhost:3000',

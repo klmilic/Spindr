@@ -11,7 +11,8 @@ export default function Navbar() {
     return (
     <div className='NavBar'>
         <Link to='/home'>
-            <img className="leftArrowBtn" src={leftArrow}/>
+            <span className="navLogo">Spindr</span>
+            {/* <img className="leftArrowBtn" src={leftArrow}/> */}
         </Link>       
         <Link to='/'>
             <img className="logoutBtn" src={logOut}/>
