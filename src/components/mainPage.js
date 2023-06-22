@@ -52,7 +52,7 @@ export default function MainPage(props) {
   const host = window.location.host;
   let url;
   if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
-  else url = host + '/playlist';
+  else url = 'https://spindr.onrender.com/playlist';
 
   const addToPlaylist = useCallback(
     (song) => {
