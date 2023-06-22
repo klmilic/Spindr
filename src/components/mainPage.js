@@ -29,6 +29,7 @@ export default function MainPage(props) {
     );
 
     const host = window.location.host;
+    console.log('the host with the most: ', host);
     // const redirectUrl = currentHost + '/login';
     // console.log('currenthost: ', currentHost);
     // console.log('redirect url: ', redirectUrl);
