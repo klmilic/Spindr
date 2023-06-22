@@ -14,10 +14,6 @@ export default function MainPage(props) {
   const [playlist, setPlaylist] = useState([]);
   const location = useLocation();
 
-  console.log(location.state, "genre inside Main page from explore");
-  const hostTest = window.location.host;
-  console.log('host: ', hostTest);
-
   useEffect(() => {
     setCurrentCard(recommendedTracks[0]);
   }, [recommendedTracks]);
@@ -25,21 +21,25 @@ export default function MainPage(props) {
   useEffect(() => {
     Spotify.getRecommendations(location.state.genre.toLowerCase().replace(/\s/g, '')).then(
       (data) => {
-        console.log(data);
-        setRecommendedTracks(data.trackDetails);
+        console.log('get recs data : ', data);
+        if (data && data.trackDetails) {
+          setRecommendedTracks(data.trackDetails);
+        }
       }
     );
 
-    const host = window.location.host;
-    // const redirectUrl = currentHost + '/login';
-    // console.log('currenthost: ', currentHost);
-    // console.log('redirect url: ', redirectUrl);
-    const url = host + '/playlist';
+    // const host = window.location.host;
+    // // const redirectUrl = currentHost + '/login';
+    // // console.log('currenthost: ', currentHost);
+    // // console.log('redirect url: ', redirectUrl);
+    // let url;
+    // if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
+    // else url = host + '/playlist';
 
-    axios.get(url).then((response) => {
-      console.log("playlist from server", response.data[0].favList);
-      setPlaylist(response.data[0].favList);
-    });
+    // axios.get(url).then((response) => {
+    //   console.log("playlist from server", response.data[0].favList);
+    //   setPlaylist(response.data[0].favList);
+    // });
   }, []);
 
   useEffect(() => {
@@ -48,10 +48,15 @@ export default function MainPage(props) {
     };
   }, []);
 
+  const host = window.location.host;
+  let url;
+  if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
+  else url = host + '/playlist';
+
   const addToPlaylist = useCallback(
     (song) => {
       axios
-        .post("http://localhost:3000/playlist", {
+        .post(url, {
           song,
         })
         .then((result) => {
