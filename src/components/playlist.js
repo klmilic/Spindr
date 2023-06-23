@@ -7,7 +7,6 @@ export default function Playlist({ playlist, setPlaylist }) {
 
   const [cookies] = useCookies(['access_token']);
 
-  console.log('playlistttt: ', playlist);
   const removeSong = (song) => {
     //make axios request to backend to delete
     axios
@@ -17,12 +16,10 @@ export default function Playlist({ playlist, setPlaylist }) {
         },
       })
       .then((result) => {
-        console.log(result);
         if (result.data.success) {
           const updatedPlaylist = playlist.filter(
             (s) => s.trackUri !== song.trackUri
           );
-          console.log(updatedPlaylist);
           setPlaylist(updatedPlaylist);
         }
       })
@@ -51,16 +48,10 @@ export default function Playlist({ playlist, setPlaylist }) {
     })
     .then(response => response.json())
     .then(data => {
-      console.log('New playlist created:', data);
       const trackUris = playlist.map(track => {
         return track.trackUri
       })
-      console.log('track uri list: ', trackUris);
 
-      // console.log(trackUris)
-      // const updatedPlaylist = playlist.filter((s) => {
-      //   return s.trackUri !== undefined;
-      // })
       fetch(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
         method: "POST",
         headers: {
@@ -73,7 +64,6 @@ export default function Playlist({ playlist, setPlaylist }) {
         })
       }).then(response => response.json())
         .then(data => {
-          console.log('DATA: ', data);
           const host = window.location.host;
           let url;
           if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
@@ -89,12 +79,6 @@ export default function Playlist({ playlist, setPlaylist }) {
     })
 
     .catch(error => console.error('Error creating playlist:', error));
-
-    //console.log('current playlist: ', playlist);
-    // const updatedPlaylist = playlist.filter((s) => {
-    //     return s.trackUri !== undefined;
-    //   })
-    //console.log('updated playlist: ', updatedPlaylist);
 
   }
 
@@ -113,9 +97,6 @@ export default function Playlist({ playlist, setPlaylist }) {
                   <div className="textBox">
                     <span>{`${song.artistName[0].name} - ${song.trackName}`}</span>
                   </div>
-                  <button className="btn-del" onClick={() => removeSong(song)}>
-                    -
-                  </button>
                 </li>
               );
             })

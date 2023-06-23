@@ -12,22 +12,22 @@ export default function Card({
 
   debouncedAddToPlaylist,
 }) {
-  console.log(currentCard);
+  // console.log(currentCard);
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState();
   const [counter, setCounter] = useState(0);
   const [buttonText, setButtonText] = useState("Play");
 
   const swiped = (direction) => {
-    console.log(direction);
+    // console.log(direction);
     setCounter(counter + 1);
     setCurrentCard(recommendedTracks[counter + 1]);
     if (currentSong) stopAudio();
   };
 
   const outOfFrame = (dir, index, song) => {
-    console.log("direction from outOfFrame ", dir);
-    console.log("current track to add to playlist:", song);
+    // console.log("direction from outOfFrame ", dir);
+    // console.log("current track to add to playlist:", song);
     if (dir === "right") {
       //addToPlaylist(refs.current[index]);
       debouncedAddToPlaylist(currentCard);

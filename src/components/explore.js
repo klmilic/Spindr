@@ -27,13 +27,13 @@ const navigate = useNavigate();
 
 const handleClick = async(e) => {
    
-    console.log((e.target.name), 'genre');
+    // console.log((e.target.name), 'genre');
     navigate('/songs', {state: {genre: e.target.name}})
 }
 
 const handleChange = async(value) => {
    
-    console.log((value), 'genre');
+    // console.log((value), 'genre');
     navigate('/songs', {state: {genre: value}})
 }
    

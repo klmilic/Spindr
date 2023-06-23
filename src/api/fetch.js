@@ -10,7 +10,6 @@ import axios from 'axios';
 const getCookieValue = (name) => (
     document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
   )
-console.log(getCookieValue)
 //need to export these functions for React app to use
 //using axios, they can make fetch requests in React app
 //genre takes in a string, comma-separated ex: "country,classical"
@@ -36,7 +35,6 @@ export async function getRecommendations(genres) {
 
     let trackDetails = []; //array to store all 20 found uris of tracks from api call
     let trackUris = [];
-    console.log('response back from spotify',response.data)
     response.data.tracks.forEach((track) => {
       //only store tracks that have preview URLs
       if (track.preview_url !== null) {
@@ -118,8 +116,6 @@ export async function createPlaylist() {
     let playlistId = playlist.data.id;
     let playlistUrl = playlist.data.external_urls.spotify;
 
-    console.log(playlistUrl); //check to see if playlist was made
-
     return playlistId;
   } catch (err) {
     console.log(err);
@@ -144,7 +140,6 @@ export async function addToPlaylist(playlistId, tracks) {
       }
     );
 
-    console.log('successfully added tracks to playlist');
   } catch (err) {
     console.log(err);
   }
