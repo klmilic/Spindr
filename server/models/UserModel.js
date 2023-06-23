@@ -26,9 +26,10 @@ const userSchema = new Schema({
       artistName: [Object],
       previewUrl: String,
       trackName: String,
-      trackUri: String,
+      trackUri: {type: String, required: true},
     },
   ],
+  spotifyAuthState: {type: String, required: true, unique: true},
 });
 
 module.exports = mongoose.model("user", userSchema);

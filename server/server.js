@@ -142,6 +142,7 @@ app.get('/callback', (req, res) => {
       if (response.status === 200) {
         //we destructure the response.data which contains our token data
         const { access_token, token_type, refresh_token } = response.data;
+        console.log('the response data is here: ');
 
         //note to jessica: im able to get the access token cookie to generate but not the other 2 for some reason
         //nvm, access token is a response cookie, apparently type and refresh tokens are on the req cookie
@@ -197,17 +198,24 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 
-app.post('/makeplaylist', 
-  PlaylistController.createPlaylist,
-  (req, res) => {return res.status(200).json(res.locals.data)}
-)
+// app.post('/makeplaylist', 
+//   PlaylistController.createPlaylist,
+//   (req, res) => {return res.status(200).json(res.locals.data)}
+// )
 
 app.get('/playlist', 
-  PlaylistController.getPlaylist, 
+  PlaylistController.createPlaylist, 
   (req, res) => {
-    return res.status(200). json(res.locals.wholePlaylist);
+    res.status(200).json(res.locals.wholePlaylist);
   }
 )
+
+// app.post('/playlist', 
+//   PlaylistController.createPlaylist, 
+//   (req, res) => {
+//     return res.status(200).json({success: true});
+//   }
+// )
 
 app.post('/playlist', 
   PlaylistController.addToPlaylist, 

@@ -7,7 +7,7 @@ export default function Playlist({ playlist, setPlaylist }) {
 
   const [cookies] = useCookies(['access_token']);
 
-  console.log(playlist);
+  console.log('playlistttt: ', playlist);
   const removeSong = (song) => {
     //make axios request to backend to delete
     axios
@@ -38,7 +38,7 @@ export default function Playlist({ playlist, setPlaylist }) {
     
     // const tokenType = cookies.get('token_type');
     
-    fetch('https://api.spotify.com/v1/users/dom.c13/playlists', {
+    fetch('https://api.spotify.com/v1/users/kirstenm2000/playlists', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,6 +55,7 @@ export default function Playlist({ playlist, setPlaylist }) {
       const trackUris = playlist.map(track => {
         return track.trackUri
       })
+      console.log('track uri list: ', trackUris);
 
       // console.log(trackUris)
       // const updatedPlaylist = playlist.filter((s) => {
@@ -68,17 +69,23 @@ export default function Playlist({ playlist, setPlaylist }) {
         },
         body: JSON.stringify({
           uris: trackUris,
+          position: 0
         })
-      }).then(response => response.json()).then(data => {
-        if(data) {
-          axios.delete('http://localhost:3000/playlist/all').then(result =>{
+      }).then(response => response.json())
+        .then(data => {
+          console.log('DATA: ', data);
+          const host = window.location.host;
+          let url;
+          if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
+          else url = 'https://spindr.onrender.com/playlist';
+          // if(data) {
+          axios.delete(url).then(result =>{
             if(result.data.success) {
               setPlaylist([])
             }
           })
         }
-      })
-      
+        ) 
     })
 
     .catch(error => console.error('Error creating playlist:', error));
@@ -98,7 +105,7 @@ export default function Playlist({ playlist, setPlaylist }) {
 
         <div className="list-container">
           {playlist.length === 0 ? (
-            <h4>Add some songs to the playlist</h4>
+            <h4>Add a song to the playlist by dragging the album cover to the right!</h4>
           ) : (
             playlist.map((song, index) => {
               return (

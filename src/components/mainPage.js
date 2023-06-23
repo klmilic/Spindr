@@ -21,7 +21,6 @@ export default function MainPage(props) {
   useEffect(() => {
     Spotify.getRecommendations(location.state.genre.toLowerCase().replace(/\s/g, '')).then(
       (data) => {
-        console.log('get recs data : ', data);
         if (data && data.trackDetails) {
           setRecommendedTracks(data.trackDetails);
         }
@@ -29,18 +28,20 @@ export default function MainPage(props) {
     );
 
     const host = window.location.host;
-    console.log('the host with the most: ', host);
     // const redirectUrl = currentHost + '/login';
     // console.log('currenthost: ', currentHost);
     // console.log('redirect url: ', redirectUrl);
     let url;
-    if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
+    if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
     else url = 'https://spindr.onrender.com/playlist';
 
-    axios.get(url).then((response) => {
-      console.log("playlist from server", response.data[0].favList);
-      setPlaylist(response.data[0].favList);
-    });
+    axios.get(url)
+      .then((response) => {
+        // if (response.data[0].favList) {
+        //   console.log("playlist from server", response.data[0].favList);
+          setPlaylist(response.data.favList);
+        // }
+      });
   }, []);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function MainPage(props) {
 
   const host = window.location.host;
   let url;
-  if (host === 'localhost:8080') url = 'http://localhost:3000/playlist';
+  if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
   else url = 'https://spindr.onrender.com/playlist';
 
   const addToPlaylist = useCallback(
@@ -61,7 +62,6 @@ export default function MainPage(props) {
           song,
         })
         .then((result) => {
-          console.log(result);
           if (result.data.success) {
             setPlaylist((prevPlaylist) => {
               const updatedPlaylist = [...prevPlaylist];
