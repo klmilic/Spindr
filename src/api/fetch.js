@@ -18,7 +18,7 @@ export async function getRecommendations(genres) {
   //TO DO: check if the useCookies method actually retrieves cookies within react app
   const token = getCookieValue('access_token');
   const tokenType = getCookieValue('token_type');
-   console.log('inside getRecommendations of fetch.js', genres)
+  //  console.log('inside getRecommendations of fetch.js', genres)
 
   const params = {
     limit: 100,

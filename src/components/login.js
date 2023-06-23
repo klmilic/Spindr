@@ -15,7 +15,6 @@ export default function Login(props) {
     <div className="loginContainer">
       <h1>Welcome to Spindr</h1>
       <button className="loginBtn" onClick={handleClick}>Login with Spotify</button>
-
     </div>
   )
 }

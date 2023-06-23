@@ -4,7 +4,6 @@ import Navbar from './navbar';
 
 /* IMPORTING IMAGES */
 import bgImg from '../../assets:images/explorebg2.jpg'
-import pop0 from '../../assets:images/lover1.jpeg';
 import pop from '../../assets:images/lover1.jpeg';
 import rock from '../../assets:images/rock.png';
 import country from '../../assets:images/country.jpeg';
@@ -16,9 +15,10 @@ import techno from '../../assets:images/techno.jpeg';
 import hiphop from '../../assets:images/hiphop.jpeg';
 import blues from '../../assets:images/blues.jpg';
 import chill from '../../assets:images/chill.jpeg';
+import indie from '../../assets:images/indie.jpeg';
 
-const genreList = ['Random','Pop','Rock','Country','Ambient','Jazz','Classical','Latin','Techno','Hip-Hop', 'Blues', 'Chill'];
-const popList =[pop0,pop,rock,country,ambient,jazz,classical,latin,techno,hiphop,blues,chill ];
+const genreList = ['Pop','Rock','Country','Ambient','Jazz','Classical','Latin','Techno','Hip-Hop', 'Blues', 'Chill', 'Indie'];
+const popList =[pop,rock,country,ambient,jazz,classical,latin,techno,hiphop,blues,chill,indie];
 
 export default function ExplorePage() {
 const [genre, setGenre] = useState("");
