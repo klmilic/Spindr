@@ -7,10 +7,9 @@ import { useLocation } from "react-router-dom";
 import Playlist from "./playlist";
 import debounce from "lodash.debounce";
 
-export default function MainPage(props) {
+export default function MainPage() {
   const [recommendedTracks, setRecommendedTracks] = useState([]);
   const [currentCard, setCurrentCard] = useState();
-  const [inputValue, setInputValue] = useState("");
   const [playlist, setPlaylist] = useState([]);
   const location = useLocation();
 
@@ -20,27 +19,16 @@ export default function MainPage(props) {
 
   useEffect(() => {
     Spotify.getRecommendations(location.state.genre.toLowerCase().replace(/\s/g, '')).then(
-      (data) => {
+      (data) => { 
         if (data && data.trackDetails) {
           setRecommendedTracks(data.trackDetails);
         }
       }
     );
 
-    const host = window.location.host;
-    // const redirectUrl = currentHost + '/login';
-    // console.log('currenthost: ', currentHost);
-    // console.log('redirect url: ', redirectUrl);
-    let url;
-    if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
-    else url = 'https://spindr.onrender.com/playlist';
-
-    axios.get(url)
+    axios.get('/api/playlist')
       .then((response) => {
-        // if (response.data[0].favList) {
-        //   console.log("playlist from server", response.data[0].favList);
           setPlaylist(response.data.favList);
-        // }
       });
   }, []);
 
@@ -55,10 +43,11 @@ export default function MainPage(props) {
   if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
   else url = 'https://spindr.onrender.com/playlist';
 
+  // add song to playlist when user swipes right
   const addToPlaylist = useCallback(
     (song) => {
       axios
-        .post(url, {
+        .post('/api/playlist', {
           song,
         })
         .then((result) => {

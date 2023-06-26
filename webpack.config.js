@@ -1,21 +1,21 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require("dotenv-webpack");
+
 module.exports = {
   entry: './src/index.js',
   output: {
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
+    new Dotenv(),
   ],
   devServer: {
-    // host: 'localhost',
-    // port: 8080,
-    // hot: true,
     allowedHosts: 'all',
     // static: {
     //   directory: path.resolve(__dirname, 'dist'),
@@ -25,21 +25,20 @@ module.exports = {
       '/api': {
         target: 'http://localhost:3000',
         secure: false,
-        
       },
     },
-    headers: {
-      'Access-Control-Allow-Origin': 'http://localhost:8080',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization',
-    },
     historyApiFallback: true,
+    // headers: {
+    //   'Access-Control-Allow-Origin': 'http://localhost:8080',
+    //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    //   'Access-Control-Allow-Headers':
+    //     'X-Requested-With, content-type, Authorization',
+    // }
   },
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

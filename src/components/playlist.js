@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 
 export default function Playlist({ playlist, setPlaylist }) {
 
-  const [cookies] = useCookies(['access_token']);
+  const [cookies] = useCookies(['access_token', 'token_type']);
 
   const removeSong = (song) => {
     //make axios request to backend to delete
@@ -29,57 +29,82 @@ export default function Playlist({ playlist, setPlaylist }) {
   };
 
   const addToSpotify = () => {
-    // const token = cookies.get('access_token');
-    // Get value of specific cookie
     const token = cookies['access_token'];
-    
-    // const tokenType = cookies.get('token_type');
-    
-    fetch('https://api.spotify.com/v1/users/kirstenm2000/playlists', {
-      method: 'POST',
+    const tokenType = cookies['token_type'];
+
+    //need to set header with token for axios fetch requests
+    axios.defaults.headers.common['Authorization'] = `${tokenType}: ${token}`;
+
+    // try {
+    //   const response = await axios.get('https://api.spotify.com/v1/me');
+    //   const { display_name } = response.data;
+    //   return display_name;
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+    // get display name to add to user's playlist
+    fetch('https://api.spotify.com/v1/me', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({
-        'name': 'Spindr Playlist',
-        'public': false // set to true if you want the playlist to be public
-      })
+      }
     })
-    .then(response => response.json())
-    .then(data => {
-      const trackUris = playlist.map(track => {
-        return track.trackUri
+      .then(response => {
+        return response.json();
       })
-
-      fetch(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          uris: trackUris,
-          position: 0
-        })
-      }).then(response => response.json())
-        .then(data => {
-          const host = window.location.host;
-          let url;
-          if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
-          else url = 'https://spindr.onrender.com/playlist';
-          // if(data) {
-          axios.delete(url).then(result =>{
-            if(result.data.success) {
-              setPlaylist([])
-            }
+      .then(data => {
+        const display_name = data.display_name;
+        fetch(`https://api.spotify.com/v1/users/${display_name}/playlists`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            'name': 'Spindr Playlist',
+            'public': false // set to true if you want the playlist to be public
           })
-        }
-        ) 
-    })
-
-    .catch(error => console.error('Error creating playlist:', error));
-
+        })
+        .then(response => response.json())
+        .then(data => {
+          const trackUris = playlist.map(track => {
+            return track.trackUri
+        });
+    
+          fetch(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              uris: trackUris,
+              position: 0
+            })
+          }).then(response => response.json())
+            .then(data => {
+              // const host = window.location.host;
+              // // let url;
+              // // if (host === 'localhost:8080' || host === 'localhost:3000') url = 'http://localhost:3000/playlist';
+              // // else url = 'https://spindr.onrender.com/playlist';
+              // // if(data) {
+              axios.delete('/api/playlist/all').then(result =>{
+                if(result.data.success) {
+                  setPlaylist([])
+                }
+              })
+            }
+            ) 
+            .catch(err => {
+              console.log('Error: ', err);
+            })
+        })
+        .catch(error => console.error('Error adding playlist to Spotify:', error));
+      })
+      .catch(err => {
+        console.log('Error in fetching user display name: ', err);
+      });
   }
 
   return (

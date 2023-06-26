@@ -64,7 +64,7 @@ export async function getRecommendations(genres) {
 
     return recTracks;
   } catch (err) {
-    console.log(err);
+    console.log('Error in fetch.js getRecommendations: ', err);
   }
 }
 
@@ -108,7 +108,7 @@ export async function createPlaylist() {
       `https://api.spotify.com/v1/users/${id}/playlists`,
       {
         name: 'your Spindr playlist',
-        description: 'songs you swiped right on',
+        description: 'Your favorite songs from Spindr',
         public: false,
       }
     );

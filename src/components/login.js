@@ -4,11 +4,7 @@ import React from 'react';
 export default function Login(props) {
 
   const handleClick = () => {
-    // const currentHost = window.location.host;
-    // const redirectUrl = currentHost + '/login';
-    // console.log('currenthost: ', currentHost);
-    // console.log('redirect url: ', redirectUrl);
-    window.location.href = '/login';
+    window.location.href = '/api/user/login';
   }
 
   return (

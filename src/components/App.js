@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage";
 import ExplorePage from "./explore";
 import Login from "./login";
-import Playlist from "./playlist";
 
 function App() {
 
